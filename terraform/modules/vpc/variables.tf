@@ -18,6 +18,14 @@ variable "private_ai_subnet_cidrs" {
   type = list(string)
 }
 
+variable "project_name" {
+  type = string
+}
+
+variable "environment" {
+  type = string
+}
+
 #variable "availability_zone" {
 #  type = string
 #}
