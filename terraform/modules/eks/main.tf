@@ -19,6 +19,10 @@ resource "aws_eks_cluster" "this" {
     endpoint_public_access = true
 
   }
+  access_config {
+    authentication_mode                         = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
+  }
 
   #  depends_on = [
   #    var.cluster_role_arn
@@ -26,6 +30,22 @@ resource "aws_eks_cluster" "this" {
 
   tags = {
     Name = "${var.project_name}-${var.environment}"
+  }
+}
+
+resource "aws_eks_access_entry" "admin" {
+  cluster_name  = aws_eks_cluster.this.name
+  principal_arn = var.admin_principal_arn
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "admin" {
+  cluster_name  = aws_eks_cluster.this.name
+  principal_arn = var.admin_principal_arn
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+  access_scope {
+    type = "cluster"
   }
 }
 
