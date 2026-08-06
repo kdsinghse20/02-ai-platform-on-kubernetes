@@ -7,7 +7,7 @@
 
 # Terraform lock file (keep if you want provider version pinning)
 # Comment the next line if you want to commit the lock file.
-#.terraform.lock.hcl
+**/.terraform.lock.hcl
 
 # Terraform state files
 *.tfstate
