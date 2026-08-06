@@ -45,3 +45,26 @@ module "security_groups" {
   vpc_id = module.vpc.vpc_id
 
 }
+
+module "eks" {
+
+  source = "../../modules/eks"
+
+  project_name = var.project_name
+
+  environment = var.environment
+
+  cluster_role_arn = module.iam.cluster_role_arn
+
+  node_role_arn = module.iam.node_role_arn
+
+  private_subnet_ids = concat(
+    module.vpc.private_app_subnet_ids,
+    module.vpc.private_ai_subnet_ids
+  )
+
+  cluster_security_group_id = module.security_groups.cluster_security_group_id
+
+  node_security_group_id = module.security_groups.node_security_group_id
+
+}
