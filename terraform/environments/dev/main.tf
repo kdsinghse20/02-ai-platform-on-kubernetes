@@ -23,3 +23,14 @@ module "vpc" {
     "10.0.21.0/24"
   ]
 }
+
+module "iam" {
+
+  source = "../../modules/iam"
+
+  project_name = var.project_name
+
+  environment  = var.environment
+
+}
+
