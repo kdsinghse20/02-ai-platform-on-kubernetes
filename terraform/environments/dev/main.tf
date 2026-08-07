@@ -94,4 +94,12 @@ module "aws_load_balancer_controller" {
 
   project_name = var.project_name
   environment  = var.environment
+
+  oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
+
+  oidc_provider_url = replace(
+    module.eks.oidc_issuer,
+    "https://",
+    ""
+  )
 }
