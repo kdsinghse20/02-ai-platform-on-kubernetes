@@ -88,3 +88,10 @@ resource "aws_iam_openid_connect_provider" "eks" {
     Name = "${var.project_name}-${var.environment}-eks-oidc"
   }
 }
+
+module "aws_load_balancer_controller" {
+  source = "../../modules/aws-load-balancer-controller"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
