@@ -1,7 +1,11 @@
 output "cluster_name" {
+  description = "EKS cluster name"
+  value       = aws_eks_cluster.this.name
+}
 
-  value = aws_eks_cluster.this.name
-
+output "oidc_issuer" {
+  description = "EKS OIDC issuer URL"
+  value       = aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
 output "cluster_endpoint" {

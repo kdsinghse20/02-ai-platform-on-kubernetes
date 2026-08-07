@@ -68,3 +68,23 @@ module "eks" {
   node_security_group_id = module.security_groups.node_security_group_id
 
 }
+
+data "tls_certificate" "eks" {
+  url = module.eks.oidc_issuer
+}
+
+resource "aws_iam_openid_connect_provider" "eks" {
+  url = module.eks.oidc_issuer
+
+  client_id_list = [
+    "sts.amazonaws.com"
+  ]
+
+  thumbprint_list = [
+    data.tls_certificate.eks.certificates[0].sha1_fingerprint
+  ]
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-eks-oidc"
+  }
+}
