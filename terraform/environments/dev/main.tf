@@ -25,13 +25,18 @@ module "vpc" {
 }
 
 module "iam" {
-
   source = "../../modules/iam"
 
   project_name = var.project_name
+  environment  = var.environment
 
-  environment = var.environment
+  oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
 
+  oidc_provider_url = replace(
+    module.eks.oidc_issuer,
+    "https://",
+    ""
+  )
 }
 
 module "security_groups" {
@@ -94,6 +99,23 @@ module "aws_load_balancer_controller" {
 
   project_name = var.project_name
   environment  = var.environment
+
+  oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
+
+  oidc_provider_url = replace(
+    module.eks.oidc_issuer,
+    "https://",
+    ""
+  )
+}
+
+module "ebs_csi" {
+  source = "../../modules/ebs-csi"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  cluster_name = module.eks.cluster_name
 
   oidc_provider_arn = aws_iam_openid_connect_provider.eks.arn
 
