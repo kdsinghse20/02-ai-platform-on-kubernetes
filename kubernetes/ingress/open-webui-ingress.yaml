@@ -9,12 +9,16 @@ metadata:
     alb.ingress.kubernetes.io/backend-protocol: HTTP
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-south-1:824992635272:certificate/b18413ee-387a-4f32-a9b8-a570d59a1bf1"
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
 
 spec:
   ingressClassName: alb
 
   rules:
-    - http:
+    - host: chat.kdsingh.cc
+      http:
         paths:
           - path: /
             pathType: Prefix
